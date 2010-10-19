@@ -1,0 +1,2 @@
+debian/tmp/usr/lib/libproxy.so.*
+debian/tmp/usr/lib/libproxy/*/modules
