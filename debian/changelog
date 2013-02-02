@@ -1,3 +1,10 @@
+libproxy (0.3.1-2+squeeze1) stable-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Fix cve-2012-4505: buffer overflo in lib/pac.c.
+
+ -- Michael Gilbert <mgilbert@debian.org>  Sat, 27 Oct 2012 09:14:00 +0000
+
 libproxy (0.3.1-2) unstable; urgency=low
 
   [ Emilio Pozuelo Monfort ]
