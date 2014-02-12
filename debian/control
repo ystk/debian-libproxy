@@ -7,33 +7,33 @@ Source: libproxy
 Section: libs
 Priority: optional
 Maintainer: Emilio Pozuelo Monfort <pochu@debian.org>
-Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Josselin Mouette <joss@debian.org>
-Build-Depends: cdbs,
-               debhelper (>= 5),
+Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Josselin Mouette <joss@debian.org>, Michael Biebl <biebl@debian.org>
+Build-Depends: cdbs (>= 0.4.93~),
+               debhelper (>= 8.1.3~),
                gnome-pkg-tools,
                autotools-dev,
-               python-all-dev,
-               python-support,
-               network-manager-dev [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64],
+               python-all-dev (>= 2.6.6-3~),
+               network-manager-dev [linux-any],
                libdbus-1-dev,
-               libmozjs-dev,
+               libmozjs-dev (>= 6),
                kdelibs5-dev,
                libqt4-dev,
-# /!\ we have a build-depends loop with webkit
-               libwebkit-dev,
+               libwebkitgtk-dev,
                gconf2,
                libxmu-dev
-Standards-Version: 3.8.3
-XS-Python-Version: >= 2.5
-Vcs-Svn: svn://svn.debian.org/svn/pkg-gnome/packages/unstable/libproxy
-Vcs-Browser: http://svn.debian.org/viewsvn/pkg-gnome/packages/unstable/libproxy
+Standards-Version: 3.9.3
+X-Python-Version: >= 2.5
+Vcs-Svn: svn://anonscm.debian.org/svn/pkg-gnome/packages/unstable/libproxy
+Vcs-Browser: http://anonscm.debian.org/viewvc/pkg-gnome/packages/unstable/libproxy
 Homepage: http://code.google.com/p/libproxy/
 
 Package: libproxy0
 Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends},
          ${misc:Depends}
-Recommends: libwebkit-1.0-2 | libmozjs2d
+Recommends: ${moz:Recommends} | ${webkit:Recommends}
 Description: automatic proxy configuration management library (shared)
  libproxy is a lightweight library which makes it easy to develop
  applications proxy-aware with a simple and stable API.
@@ -42,6 +42,7 @@ Description: automatic proxy configuration management library (shared)
 
 Package: libproxy-dev
 Architecture: any
+Multi-Arch: same
 Section: libdevel
 Depends: ${shlibs:Depends},
          ${misc:Depends},
@@ -55,6 +56,7 @@ Description: automatic proxy configuration management library (devel)
 Package: libproxy-tools
 Section: utils
 Architecture: any
+Multi-Arch: foreign
 Depends: ${shlibs:Depends},
          ${misc:Depends}
 Description: automatic proxy configuration management library (tools)
@@ -67,7 +69,6 @@ Description: automatic proxy configuration management library (tools)
 Package: python-libproxy
 Architecture: all
 Section: python
-XB-Python-Version: ${python:Versions}
 Depends: ${python:Depends},
          ${misc:Depends},
          libproxy0 (>= ${source:Version})
