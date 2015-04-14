@@ -1,234 +1,147 @@
-Installation Instructions
-*************************
 
-Copyright (C) 1994, 1995, 1996, 1999, 2000, 2001, 2002, 2004, 2005,
-2006 Free Software Foundation, Inc.
+Quick Start
+###########
 
-This file is free documentation; the Free Software Foundation gives
-unlimited permission to copy, distribute and modify it.
+From source directory
+1. mkdir build
+2. cd build
+3. cmake ..
+4. make
+5. make install
 
-Basic Installation
-==================
+More advanced installation options:
+###################################
 
-Briefly, the shell commands `./configure; make; make install' should
-configure, build, and install this package.  The following
-more-detailed instructions are generic; see the `README' file for
-instructions specific to this package.
+Example:
+  cmake ..
+    -DCMAKE_INSTALL_PREFIX=/usr 
+    -DLIB_SUFIX=64
+    -DWITH_VALA=yes 
+    -DWITH_DOTNET=yes 
+    -DPERL_VENDORINSTALL=yes 
+    -DCMAKE_BUILD_TYPE=None
+    -DCMAKE_CXX_FLAGS="-O2"
+    -DCMAKE_C_FLAGS="-O2"
 
-   The `configure' shell script attempts to guess correct values for
-various system-dependent variables used during compilation.  It uses
-those values to create a `Makefile' in each directory of the package.
-It may also create one or more `.h' files containing system-dependent
-definitions.  Finally, it creates a shell script `config.status' that
-you can run in the future to recreate the current configuration, and a
-file `config.log' containing compiler output (useful mainly for
-debugging `configure').
+This example would configure libproxy to be installed in /usr with all other
+location using defaults relative to it, except that libraries will be install in
+/usr/lib64. It also enable Vala and .NET bindings and tell the build system
+to install the Perl binding in the vendor directory (the one used by
+distribution, in contrast to the one used by users).
 
-   It can also use an optional file (typically called `config.cache'
-and enabled with `--cache-file=config.cache' or simply `-C') that saves
-the results of its tests to speed up reconfiguring.  Caching is
-disabled by default to prevent problems with accidental use of stale
-cache files.
+Path options:
+=============
 
-   If you need to do unusual things to compile the package, please try
-to figure out how `configure' could check whether to do them, and mail
-diffs or instructions to the address given in the `README' so they can
-be considered for the next release.  If you are using the cache, and at
-some point `config.cache' contains results you don't want to keep, you
-may remove or edit it.
+CMAKE_INSTALL_PREFIX: Default to "/usr/local". This is the base install
+                      directory. All other path, except SYSCONF_INSTALL_DIR
+                      are by default relative to this one.
 
-   The file `configure.ac' (or `configure.in') is used to create
-`configure' by a program called `autoconf'.  You need `configure.ac' if
-you want to change it or regenerate `configure' using a newer version
-of `autoconf'.
+BIN_INSTALL_DIR:      Default to "bin". This is where executable are install.
 
-The simplest way to compile this package is:
+LIB_INSTALL_DIR:      Default to "lib${LIB_SUFFIX}". This is where libraries
+                      are insalled.
 
-  1. `cd' to the directory containing the package's source code and type
-     `./configure' to configure the package for your system.
+LIB_SUFFIX:           Default to "". This is used on multilib 64bit OS where it
+                      would be set to "64".
 
-     Running `configure' might take a while.  While running, it prints
-     some messages telling which features it is checking for.
+LIBEXEC_INSTALL_DIR:  Default to "libexec". This is where non-interactive helper
+                      executable are installed (e.g. pxgconf for Gnome support).
 
-  2. Type `make' to compile the package.
+INCLUDE_INSTALL_DIR:  Default to "include". This is where libproxy header is
+                      installed (proxy.h).
 
-  3. Optionally, type `make check' to run any self-tests that come with
-     the package.
+SYSCONF_INSTALL_DIR:  Default to "/etc". This is the place where system wide
+                      configuration files are placed, currently unused. Note
+                      that this path does not have a relative path has default.
 
-  4. Type `make install' to install the programs and any data files and
-     documentation.
+SHARE_INSTALL_DIR:    Default to "share". This base path used for CMake modules
+                      finders and the Vala bindings.
 
-  5. You can remove the program binaries and object files from the
-     source code directory by typing `make clean'.  To also remove the
-     files that `configure' created (so you can compile the package for
-     a different kind of computer), type `make distclean'.  There is
-     also a `make maintainer-clean' target, but that is intended mainly
-     for the package's developers.  If you use it, you may have to get
-     all sorts of other programs in order to regenerate files that came
-     with the distribution.
+MODULE_INSTALL_DIR:   Default to "${LIB_INSTALL_DIR}/${PROJECT_NAME}/${PROJECT_VERSION}/modules".
+                      This is where libproxy extensions are installed. Note that
+                      extentions API/ABI is not yet stable, so you should be
+                      carefull when changing this path not to mix different
+                      version of extensions together. The module path can also
+                      be altered at runtime using PX_MODULE_PATH environement.
 
-Compilers and Options
-=====================
 
-Some systems require unusual options for compilation or linking that the
-`configure' script does not know about.  Run `./configure --help' for
-details on some of the pertinent environment variables.
-
-   You can give `configure' initial values for configuration parameters
-by setting variables in the command line or in the environment.  Here
-is an example:
-
-     ./configure CC=c99 CFLAGS=-g LIBS=-lposix
-
-   *Note Defining Variables::, for more details.
-
-Compiling For Multiple Architectures
-====================================
-
-You can compile the package for more than one kind of computer at the
-same time, by placing the object files for each architecture in their
-own directory.  To do this, you can use GNU `make'.  `cd' to the
-directory where you want the object files and executables to go and run
-the `configure' script.  `configure' automatically checks for the
-source code in the directory that `configure' is in and in `..'.
-
-   With a non-GNU `make', it is safer to compile the package for one
-architecture at a time in the source code directory.  After you have
-installed the package for one architecture, use `make distclean' before
-reconfiguring for another architecture.
-
-Installation Names
-==================
-
-By default, `make install' installs the package's commands under
-`/usr/local/bin', include files under `/usr/local/include', etc.  You
-can specify an installation prefix other than `/usr/local' by giving
-`configure' the option `--prefix=PREFIX'.
-
-   You can specify separate installation prefixes for
-architecture-specific files and architecture-independent files.  If you
-pass the option `--exec-prefix=PREFIX' to `configure', the package uses
-PREFIX as the prefix for installing programs and libraries.
-Documentation and other data files still use the regular prefix.
-
-   In addition, if you use an unusual directory layout you can give
-options like `--bindir=DIR' to specify different values for particular
-kinds of files.  Run `configure --help' for a list of the directories
-you can set and what kinds of files go in them.
-
-   If the package supports it, you can cause programs to be installed
-with an extra prefix or suffix on their names by giving `configure' the
-option `--program-prefix=PREFIX' or `--program-suffix=SUFFIX'.
-
-Optional Features
-=================
-
-Some packages pay attention to `--enable-FEATURE' options to
-`configure', where FEATURE indicates an optional part of the package.
-They may also pay attention to `--with-PACKAGE' options, where PACKAGE
-is something like `gnu-as' or `x' (for the X Window System).  The
-`README' should mention any `--enable-' and `--with-' options that the
-package recognizes.
-
-   For packages that use the X Window System, `configure' can usually
-find the X include and library files automatically, but if it doesn't,
-you can use the `configure' options `--x-includes=DIR' and
-`--x-libraries=DIR' to specify their locations.
-
-Specifying the System Type
-==========================
-
-There may be some features `configure' cannot figure out automatically,
-but needs to determine by the type of machine the package will run on.
-Usually, assuming the package is built to be run on the _same_
-architectures, `configure' can figure that out, but if it prints a
-message saying it cannot guess the machine type, give it the
-`--build=TYPE' option.  TYPE can either be a short name for the system
-type, such as `sun4', or a canonical name which has the form:
-
-     CPU-COMPANY-SYSTEM
-
-where SYSTEM can have one of these forms:
-
-     OS KERNEL-OS
-
-   See the file `config.sub' for the possible values of each field.  If
-`config.sub' isn't included in this package, then this package doesn't
-need to know the machine type.
-
-   If you are _building_ compiler tools for cross-compiling, you should
-use the option `--target=TYPE' to select the type of system they will
-produce code for.
-
-   If you want to _use_ a cross compiler, that generates code for a
-platform different from the build platform, you should specify the
-"host" platform (i.e., that on which the generated programs will
-eventually be run) with `--host=TYPE'.
-
-Sharing Defaults
+Boolean options:
 ================
 
-If you want to set default values for `configure' scripts to share, you
-can create a site shell script called `config.site' that gives default
-values for variables like `CC', `cache_file', and `prefix'.
-`configure' looks for `PREFIX/share/config.site' if it exists, then
-`PREFIX/etc/config.site' if it exists.  Or, you can set the
-`CONFIG_SITE' environment variable to the location of the site script.
-A warning: not all `configure' scripts look for a site script.
+BIPR:                   Default to ON. Build Internal Pac Runner.
+                        If only one pacrunner is to be built, then the default
+                        is to link it internal to libproxy. As soon as two are
+                        to be built, they are always made as a module.
+                        Setting this to OFF allows to build a pacrunner as
+                        module even if only one is to be built.
 
-Defining Variables
-==================
+FORCE_SYSTEM_LIBMODMAN: Default to OFF. Forces the build system to generate an
+                        error if libmodman cannot be found on your system. By
+                        default libmodman will fallback to using internal copy
+                        of that library.
 
-Variables not defined in a site shell script can be set in the
-environment passed to `configure'.  However, some packages may run
-configure again during the build, and the customized values of these
-variables may be lost.  In order to avoid this problem, you should set
-them in the `configure' command line, using `VAR=value'.  For example:
+PERL_VENDORINSTALL:     Default to OFF. Tells cmake to install the perl binding
+                        in the vendor directory, which is the one used by most
+                        packagers.
 
-     ./configure CC=/usr/local2/bin/gcc
+WITH_DOTNET:            Default to OFF. Enable Mono .NET bindings.
 
-causes the specified `gcc' to be used as the C compiler (unless it is
-overridden in the site shell script).
+WITH_GNOME:             Default to ON. Enable Gnome2/GConf bindings.
 
-Unfortunately, this technique does not work for `CONFIG_SHELL' due to
-an Autoconf bug.  Until the bug is fixed you can use this workaround:
+WITH_GNOME3:            Default to ON. Build the Gnome3/GSettings bindings.
+                        instead of Gnome2/GConf based one.
 
-     CONFIG_SHELL=/bin/bash /bin/bash ./configure CONFIG_SHELL=/bin/bash
+WITH_KDE4:              Default to ON. Enables KDE4/Kconf bindings.
 
-`configure' Invocation
-======================
+WITH_MOZJS:             Default to ON. Enable Mozilla javascript bindings. As
+                        Mozilla Javascript engine is often installed multiple
+                        you can set prefered order using MOZJS_SEARCH_ORDER,
+                        wich defaults to "xulrunner-js;firefox-js;mozilla-js;seamonkey-js".
 
-`configure' recognizes the following options to control how it operates.
+WITH_NM:                Default to ON. Enable NetworkManager bindings.
 
-`--help'
-`-h'
-     Print a summary of the options to `configure', and exit.
+WITH_PERL:              Default to ON. Enable Perl bindings.
 
-`--version'
-`-V'
-     Print the version of Autoconf used to generate the `configure'
-     script, and exit.
+WITH_PYTHON:            Default to ON. Enable Python bindings.
 
-`--cache-file=FILE'
-     Enable the cache: use and save the results of the tests in FILE,
-     traditionally `config.cache'.  FILE defaults to `/dev/null' to
-     disable caching.
+WITH_VALA:              Default to OFF. Enable Vala bindings.
 
-`--config-cache'
-`-C'
-     Alias for `--cache-file=config.cache'.
+WITH_WEBKIT:            Default to ON. Enable Webkit Java Script engine.
 
-`--quiet'
-`--silent'
-`-q'
-     Do not print messages saying which checks are being made.  To
-     suppress all normal output, redirect it to `/dev/null' (any error
-     messages will still be shown).
+WITH_WEBKIT3:           Default to OFF: Enable Webkit GTK3 support.
 
-`--srcdir=DIR'
-     Look for the package's source code in directory DIR.  Usually
-     `configure' can determine that directory automatically.
 
-`configure' also accepts some other, not widely useful, options.  Run
-`configure --help' for more details.
+Bindings Path:
+==============
+
+Most bindings require to be installed in a system specific directory. Libproxy
+build system tries to find those directory. Sometimes this behaviour can be
+annoying since bindings will not be installed relatively to CMAKE_INSTALL_PREFIX.
+For this reason, all bindings provides path overrides.
+
+GAC_DIR:            For the Mono .NET binding
+VAPI_DIR:           For the Vala bindings
+PX_PERL_ARCH:       For the Perl bindings
+PYTHON_SITEPKG_DIR: For the Python bindings
+
+
+Make options:
+=============
+
+Of course you can use parallel build using "make -j2". It's also nice to see
+the exact compile/link command being executed. This can be done using
+"make VERBOSE=1" command.
+
+To install in a sub-directory, DESTDIR can be used has make parameter.
+  make install [DESTDIR=/any/prefix/to/prepend]
+
+CFLAGS in libproxy:
+===================
+
+We are currently having issue with CMake and CFLAGS. As shown in the example,
+we have found a simple way that prevents CMAKE from choosing for you the
+CFLAGS you want. As being demonstrated, you can disable CMAKE default CFLAGS
+by setting an invalid (but not empty) CMAKE_BUILD_TYPE (e.g. None). You can
+then set your flags using CMAKE_CXX_FLAGS, and CMAKE_C_FLAGS. Both variable
+are required since libproxy contains C++ and C code.
 
