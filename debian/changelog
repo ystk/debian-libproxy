@@ -1,3 +1,20 @@
+libproxy (0.4.11-4+deb8u2) jessie-security; urgency=high
+
+  * Non-maintainer upload by the ELTS team.
+  * Fix CVE-2020-26154:
+    Li Fei discovered a possible buffer overflow vulnerability in libroxy when
+    a server serving a PAC file sends more than 102400 bytes without a
+    Content-Length present.
+
+ -- Markus Koschany <apo@debian.org>  Fri, 2 Oct 2020 00:15:04 +0200
+
+libproxy (0.4.11-4+deb8u1) jessie-security; urgency=high
+
+  * CVE-2020-25219: Prevent a remote denial of service attack that was caused
+    by an infinite stack recursion when processing network input.
+
+ -- Chris Lamb <lamby@debian.org>  Sat, 12 Sep 2020 10:46:04 +0100
+
 libproxy (0.4.11-4) unstable; urgency=low
 
   * Upload to unstable

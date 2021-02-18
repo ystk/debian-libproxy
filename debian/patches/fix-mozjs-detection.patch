@@ -2,8 +2,8 @@ Description: pacrunner: mozjs: mozjs185 is not always properly versioned.
  We have to assume that Mozilla knows what they are doing and thus, if we
  find mozjs185.pc, we accept it as being present.
 
---- a/libproxy/cmake/modules/pacrunner_mozjs.cmk
-+++ b/libproxy/cmake/modules/pacrunner_mozjs.cmk
+--- libproxy-0.4.11.orig/libproxy/cmake/modules/pacrunner_mozjs.cmk
++++ libproxy-0.4.11/libproxy/cmake/modules/pacrunner_mozjs.cmk
 @@ -9,7 +9,7 @@ if(WIN32)
  elseif(NOT APPLE)
    option(WITH_MOZJS "Search for MOZJS package" ON)
